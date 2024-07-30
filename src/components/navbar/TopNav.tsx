@@ -1,3 +1,4 @@
+import { getUserInfoForNav } from "@/app/actions/user-actions";
 import { auth } from "@/auth";
 import { Button, Navbar, NavbarBrand, NavbarContent } from "@nextui-org/react";
 import Link from "next/link";
@@ -7,6 +8,7 @@ import UserMenu from "./UserMenu";
 
 export default async function TopNav() {
   const session = await auth();
+  const userInfo = session?.user && (await getUserInfoForNav());
 
   return (
     <Navbar
@@ -35,7 +37,7 @@ export default async function TopNav() {
       </NavbarContent>
       <NavbarContent justify="end">
         {session?.user ? (
-          <UserMenu user={session.user} />
+          <UserMenu userInfo={userInfo} />
         ) : (
           <>
             <Button
